@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/leadyourway/v1/cards")
+@RequestMapping("/api/cyclescape/v1/cards")
 public class CardController {
     private final CardService cardService;
 
@@ -18,7 +18,7 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/cards/{cardId}
+    // URL: http://localhost:8080/api/cyclescape/v1/cards/{cardId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{cardId}")
@@ -26,7 +26,7 @@ public class CardController {
         return new ResponseEntity<Card>(cardService.getCardById(cardId), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/cards/user/{userId}
+    // URL: http://localhost:8080/api/cyclescape/v1/cards/user/{userId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/user/{userId}")
@@ -34,7 +34,7 @@ public class CardController {
         return new ResponseEntity<List<Card>>(cardService.getCardByUserId(userId), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/cards/{userId}
+    // URL: http://localhost:8080/api/cyclescape/v1/cards/{userId}
     // Method: POST
     @Transactional
     @PostMapping("/{userId}")
@@ -42,7 +42,7 @@ public class CardController {
         return new ResponseEntity<Card>(cardService.createCard(userId, card), HttpStatus.CREATED);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/cards/{cardId}
+    // URL: http://localhost:8080/api/cyclescape/v1/cards/{cardId}
     // Method: PUT
     @Transactional
     @PutMapping("/{cardId}")
@@ -52,7 +52,7 @@ public class CardController {
         return new ResponseEntity<Card>(cardService.updateCard(card), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/cards/{cardId}/main
+    // URL: http://localhost:8080/api/cyclescape/v1/cards/{cardId}/main
     // Method: PATCH
     @Transactional
     @PatchMapping("/cards/{cardId}/main")
@@ -60,7 +60,7 @@ public class CardController {
         return new ResponseEntity<Card>(cardService.updateCardMain(cardId, cardMain), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/cards/{cardId}
+    // URL: http://localhost:8080/api/cyclescape/v1/cards/{cardId}
     // Method: DELETE
     @Transactional
     @DeleteMapping("/{cardId}")

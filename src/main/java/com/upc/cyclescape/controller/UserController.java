@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/leadyourway/v1/users")
+@RequestMapping("/api/cyclescape/v1/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -28,7 +28,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/users
+    // URL: http://localhost:8080/api/cyclescape/v1/users
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping
@@ -39,7 +39,7 @@ public class UserController {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/users/{userId}
+    // URL: http://localhost:8080/api/cyclescape/v1/users/{userId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{userId}")
@@ -52,7 +52,7 @@ public class UserController {
 
 
 
-    // URL: http://localhost:8080/api/leadyourway/v1/login
+    // URL: http://localhost:8080/api/cyclescape/v1/login
     // Method: POST
     @Transactional(readOnly = true)
     @PostMapping("/login")
@@ -66,7 +66,7 @@ public class UserController {
     }
 
 
-    // URL: http://localhost:8080/api/leadyourway/v1/register
+    // URL: http://localhost:8080/api/cyclescape/v1/register
     // Method: POST
     @Transactional
     @PostMapping("/register")
@@ -76,7 +76,7 @@ public class UserController {
         return new ResponseEntity<User>(userService.createUser(user), HttpStatus.CREATED);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/users/{userId}
+    // URL: http://localhost:8080/api/cyclescape/v1/users/{userId}
     // Method: PUT
     @Transactional
     @PutMapping("/{userId}")
@@ -89,7 +89,7 @@ public class UserController {
 
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/users/{userId}
+    // URL: http://localhost:8080/api/cyclescape/v1/users/{userId}
     // Method: DELETE
     @Transactional
     @DeleteMapping("/{userId}")

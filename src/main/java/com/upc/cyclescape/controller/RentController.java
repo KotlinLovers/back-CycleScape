@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/leadyourway/v1/rents")
+@RequestMapping("/api/cyclescape/v1/rents")
 public class RentController {
     private final RentService rentService;
 
@@ -19,7 +19,7 @@ public class RentController {
         this.rentService = rentService;
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/rents/{rentId}
+    // URL: http://localhost:8080/api/cyclescape/v1/rents/{rentId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{rentId}")
@@ -27,7 +27,7 @@ public class RentController {
         return new ResponseEntity<Rent>(rentService.getById(rentId), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/rents/bicycle/{bicycleId}
+    // URL: http://localhost:8080/api/cyclescape/v1/rents/bicycle/{bicycleId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/bicycle/{bicycleId}")
@@ -35,7 +35,7 @@ public class RentController {
         return new ResponseEntity<List<Rent>>(rentService.getByBicycleId(bicycleId), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/rents
+    // URL: http://localhost:8080/api/cyclescape/v1/rents
     // Method: POST
     @Transactional
     @PostMapping
@@ -46,7 +46,7 @@ public class RentController {
         return new ResponseEntity<Rent>(rentService.create(rentDto), HttpStatus.CREATED);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/rents/{rentId}
+    // URL: http://localhost:8080/api/cyclescape/v1/rents/{rentId}
     // Method: DELETE
     @Transactional
     @DeleteMapping("/{rentId}")

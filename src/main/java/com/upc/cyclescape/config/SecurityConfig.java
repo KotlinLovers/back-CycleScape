@@ -22,9 +22,9 @@
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http.cors().and()
                     .authorizeHttpRequests(authorize -> authorize
-                            .requestMatchers("/api/leadyourway/v1/auth/**","/api/leadyourway/v1/bicycles", "/api/leadyourway/v1/bicycles/available").permitAll()
-                            .requestMatchers("/api/leadyourway/v1/users",
-                                    "/api/leadyourway/v1/rents","/api/leadyourway/v1/cards").authenticated()
+                            .requestMatchers("/api/cyclescape/v1/auth/**","/api/cyclescape/v1/bicycles", "/api/cyclescape/v1/bicycles/available").permitAll()
+                            .requestMatchers("/api/cyclescape/v1/users",
+                                    "/api/cyclescape/v1/rents","/api/cyclescape/v1/cards").authenticated()
                             .anyRequest().authenticated())
                     .csrf(csrf -> csrf.disable())
                     .sessionManagement(session -> session

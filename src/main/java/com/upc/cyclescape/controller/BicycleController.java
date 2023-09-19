@@ -27,7 +27,7 @@ public class BicycleController {
         this.bicycleService = bicycleService;
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/bicycles
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping
@@ -37,7 +37,7 @@ public class BicycleController {
         return new ResponseEntity<List<Bicycle>>(bicycleService.getAllBicycles(), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/bicycles/{bicycleId}
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{bicycleId}")
@@ -45,7 +45,7 @@ public class BicycleController {
         return new ResponseEntity<Bicycle>(bicycleService.getBicycleById(bicycleId), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/bicycles/available
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles/available
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/available")
@@ -57,7 +57,7 @@ public class BicycleController {
     }
 
 
-    // URL: http://localhost:8080/api/leadyourway/v1/bicycles/{userId}
+    // URL: http://localhost:8080/api/cyclescapey/v1/bicycles/{userId}
     // Method: POST
     @Transactional
     @PostMapping("/{userId}")
@@ -65,7 +65,7 @@ public class BicycleController {
         return new ResponseEntity<Bicycle>(bicycleService.createBicycle(userId, bicycle), HttpStatus.CREATED);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/bicycles/{bicycleId}
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}
     // Method: PUT
     @Transactional
     @PutMapping("/{bicycleId}")
@@ -73,7 +73,7 @@ public class BicycleController {
         return new ResponseEntity<Bicycle>(bicycleService.updateBicycle(bicycleId, bicycle), HttpStatus.OK);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/bicycles/{bicycleId}
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}
     // Method: DELETE
     @Transactional
     @DeleteMapping("/{bicycleId}")

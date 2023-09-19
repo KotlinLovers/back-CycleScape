@@ -17,14 +17,14 @@ import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/leadyourway/v1/auth")
+@RequestMapping("/api/cyclescape/v1/auth")
 public class AuthentificationController {
 
     @Autowired
     private AuthService authService;
     @Autowired
     private UserRepository userRepository;
-    // URL: http://localhost:8080/api/leadyourway/v1/auth/register
+    // URL: http://localhost:8080/api/cyclescape/v1/auth/register
     // Method: POST
     @Transactional
     @PostMapping("/register")
@@ -35,7 +35,7 @@ public class AuthentificationController {
         return new ResponseEntity<AuthenticationResponse>(registeredUser, HttpStatus.CREATED);
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/auth/login
+    // URL: http://localhost:8080/api/cyclescape/v1/auth/login
     // Method: POST
     @Transactional(readOnly = true)
     @PostMapping("/login")

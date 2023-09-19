@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/leadyourway/v1")
+@RequestMapping("/api/cyclescape/v1")
 public class AvailabilityController {
     private final AvailabilityService availabilityService;
 
@@ -17,7 +17,7 @@ public class AvailabilityController {
         this.availabilityService = availabilityService;
     }
 
-    // URL: http://localhost:8080/api/leadyourway/v1/availabilities/{availabilityId}
+    // URL: http://localhost:8080/api/cyclescape/v1/availabilities/{availabilityId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/availabilities/{availabilityId}")
