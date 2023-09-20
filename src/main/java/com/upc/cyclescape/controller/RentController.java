@@ -40,7 +40,6 @@ public class RentController {
     @Transactional
     @PostMapping
     public ResponseEntity<Rent> createRent(@RequestBody RentDto rentDto) {
-        //modelMapper.getConfiguration().setAmbiguityIgnored(true);
         //modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         //Rent rent = modelMapper.map(rentDto, Rent.class);
         return new ResponseEntity<Rent>(rentService.create(rentDto), HttpStatus.CREATED);
