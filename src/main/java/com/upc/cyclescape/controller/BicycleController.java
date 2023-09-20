@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/leadyourway/v1/bicycles")
+@RequestMapping("/api/cyclescape/v1/bicycles")
 public class BicycleController {
     @Autowired
     private UserService userService;
@@ -61,7 +61,7 @@ public class BicycleController {
     // Method: POST
     @Transactional
     @PostMapping("/{userId}")
-    public ResponseEntity<Bicycle> createBicycleWithUserId(@PathVariable(name = "userId") Long userId, @RequestBody Bicycle bicycle) {
+    public ResponseEntity<Bicycle> createBicycleWithUserId(@PathVariable(name = "userId") Long userId, @RequestBody Bicycle  bicycle) {
         return new ResponseEntity<Bicycle>(bicycleService.createBicycle(userId, bicycle), HttpStatus.CREATED);
     }
 
