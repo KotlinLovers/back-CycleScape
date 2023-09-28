@@ -3,8 +3,10 @@ package com.upc.cyclescape.controller;
 import com.upc.cyclescape.dto.AuthenticationResponse;
 import com.upc.cyclescape.dto.LoginRequest;
 import com.upc.cyclescape.dto.RegisterRequest;
+import com.upc.cyclescape.model.Bicycle;
 import com.upc.cyclescape.repository.UserRepository;
 import com.upc.cyclescape.service.AuthService;
+import com.upc.cyclescape.service.BicycleService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -24,6 +27,10 @@ public class AuthentificationController {
     private AuthService authService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BicycleService bicycleService;
+
+
     // URL: http://localhost:8080/api/cyclescape/v1/auth/register
     // Method: POST
     @Transactional
@@ -54,6 +61,15 @@ public class AuthentificationController {
             HttpServletResponse response) throws IOException {
         authService.refreshToken(request, response);
     }
+
+    @Transactional(readOnly = true)
+    @GetMapping("/bicycle")
+    public ResponseEntity<List<Bicycle>> getAllBicycles() {
+
+        System.out.println("getAllBicycles");
+        return new ResponseEntity<List<Bicycle>>(bicycleService.getAllBicycles(), HttpStatus.OK);
+    }
+
 
 
 
