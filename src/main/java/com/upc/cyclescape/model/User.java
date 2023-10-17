@@ -46,6 +46,12 @@ public class User implements UserDetails {
     @Column(name="image_data", nullable = true)
     private String imageData;
 
+    @Column(name="latitude_data", nullable = true)
+    private Double latitudeData;
+
+    @Column(name="longitude_data", nullable = true)
+    private Double longitudeData;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bicycle> bicycles;
 
