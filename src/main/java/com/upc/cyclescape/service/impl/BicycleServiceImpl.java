@@ -50,6 +50,7 @@ public class BicycleServiceImpl implements BicycleService {
     public Bicycle updateBicycle(Long bicycleId, Bicycle bicycle) {
         existsBicycleByBicycleId(bicycleId);
         bicycle.setId(bicycleId);
+        bicycle.setUser(getBicycleById(bicycleId).getUser());
         validateBicycle(bicycle);
         return bicycleRepository.save(bicycle);
     }

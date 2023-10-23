@@ -21,6 +21,8 @@ public class UserDto {
     private String userEmail;
     private String userPhone;
     private LocalDate userBirthDate;
+    private Double latitudeData;
+    private Double longitudeData;
     private String imageData;
     private List<Bicycle> bicycles;
     private List<Card> cards;

@@ -1,6 +1,9 @@
 package com.upc.cyclescape.controller;
 
+import com.upc.cyclescape.dto.BicycleDto;
+import com.upc.cyclescape.dto.UserDto;
 import com.upc.cyclescape.model.Bicycle;
+import com.upc.cyclescape.model.User;
 import com.upc.cyclescape.service.BicycleService;
 import com.upc.cyclescape.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -31,29 +36,35 @@ public class BicycleController {
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping
-    public ResponseEntity<List<Bicycle>> getAllBicycles() {
+    public ResponseEntity<List<BicycleDto>> getAllBicycles() {
         //print somethign
+        List<Bicycle> bicycles = bicycleService.getAllBicycles();
         System.out.println("getAllBicycles");
-        return new ResponseEntity<List<Bicycle>>(bicycleService.getAllBicycles(), HttpStatus.OK);
+        return new ResponseEntity<List<BicycleDto>>(bicycles.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{bicycleId}")
-    public ResponseEntity<Bicycle> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
-        return new ResponseEntity<Bicycle>(bicycleService.getBicycleById(bicycleId), HttpStatus.OK);
+    public ResponseEntity<BicycleDto> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
+        Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
+        return new ResponseEntity<BicycleDto>(convertToDto(bicycle), HttpStatus.OK);
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/available
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/available")
-    public ResponseEntity<List<Bicycle>> getAllAvailableBicycles(
+    public ResponseEntity<List<BicycleDto>> getAllAvailableBicycles(
             @RequestParam(name = "start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start_date,
             @RequestParam(name = "end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end_date
     ) {
-        return new ResponseEntity<>(bicycleService.getAllAvailableBicycles(start_date, end_date), HttpStatus.OK);
+        return new ResponseEntity<>(bicycleService.getAllAvailableBicycles(start_date, end_date).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
 
@@ -69,8 +80,9 @@ public class BicycleController {
     // Method: PUT
     @Transactional
     @PutMapping("/{bicycleId}")
-    public ResponseEntity<Bicycle> updateBicycleByBicycleId(@PathVariable(name = "bicycleId") Long bicycleId, @RequestBody Bicycle bicycle) {
-        return new ResponseEntity<Bicycle>(bicycleService.updateBicycle(bicycleId, bicycle), HttpStatus.OK);
+    public ResponseEntity<BicycleDto> updateBicycleByBicycleId(@PathVariable(name = "bicycleId") Long bicycleId, @RequestBody Bicycle bicycle) {
+
+        return new ResponseEntity<BicycleDto>(convertToDto(bicycleService.updateBicycle(bicycleId, bicycle)), HttpStatus.OK);
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}
@@ -78,6 +90,18 @@ public class BicycleController {
     @Transactional
     @DeleteMapping("/{bicycleId}")
     public ResponseEntity<String> deleteBicycleByBicycleId(@PathVariable(name = "bicycleId") Long bicycleId) {
+        bicycleService.deleteBicycle(bicycleId);
         return new ResponseEntity<String>("Bicicleta eliminada correctamente", HttpStatus.OK);
+    }
+    private BicycleDto convertToDto(Bicycle bicycle) {
+        return BicycleDto.builder()
+                .bicycleName(bicycle.getBicycleName())
+                .bicycleDescription(bicycle.getBicycleDescription())
+                .bicyclePrice(bicycle.getBicyclePrice())
+                .bicycleSize(bicycle.getBicycleSize())
+                .bicycleModel(bicycle.getBicycleModel())
+                .imageData(bicycle.getImageData())
+                .user(bicycle.getUser())
+                .build();
     }
 }

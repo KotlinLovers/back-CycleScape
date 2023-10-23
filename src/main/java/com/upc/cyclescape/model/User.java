@@ -1,5 +1,6 @@
 package com.upc.cyclescape.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +47,13 @@ public class User implements UserDetails {
     @Column(name="image_data", nullable = true)
     private String imageData;
 
+    @Column(name="latitude_data", nullable = true)
+    private Double latitudeData;
+
+    @Column(name="longitude_data", nullable = true)
+    private Double longitudeData;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bicycle> bicycles;
 
@@ -55,6 +63,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
