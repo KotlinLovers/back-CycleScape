@@ -46,6 +46,8 @@ public class AuthServiceImp implements AuthService {
                 .userPassword(passwordEncoder.encode(registerRequest.getUserPassword()))
                 .userPhone(registerRequest.getUserPhone())
                 .userBirthDate(registerRequest.getUserBirthDate())
+                .latitudeData(registerRequest.getLatitudeData())
+                .longitudeData(registerRequest.getLongitudeData())
                 .imageData(registerRequest.getImageData())
                 .role(Roles.USER)
                 .build();

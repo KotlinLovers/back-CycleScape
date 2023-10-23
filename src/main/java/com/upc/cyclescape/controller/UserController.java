@@ -107,6 +107,8 @@ public class UserController {
                 .userPhone(user.getUserPhone())
                 .userBirthDate(user.getUserBirthDate())
                 .imageData(user.getImageData())
+                .longitudeData(user.getLongitudeData())
+                .latitudeData(user.getLatitudeData())
                 .bicycles(user.getBicycles())
                 .cards(user.getCards())
                 .build();
@@ -180,6 +182,12 @@ public class UserController {
             }
             if (user.getImageData() != null && !user.getImageData().isEmpty() && !user.getImageData().equals(userToUpdate.getImageData())) {
                 userToUpdate.setImageData(user.getImageData());
+            }
+            if (user.getLatitudeData() != null && !user.getLatitudeData().equals(userToUpdate.getLatitudeData())){
+                userToUpdate.setLatitudeData(user.getLatitudeData());
+            }
+            if (user.getLongitudeData() != null && !user.getLongitudeData().equals(userToUpdate.getLongitudeData())){
+                userToUpdate.setLongitudeData(user.getLongitudeData());
             }
             return userService.updateUser(userToUpdate);
         }).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + user.getId()));
