@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'cyclescapev2'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F253E4E35FE44C33B2E17BADA24F9392 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7553A4BD0EFF44FE8907210AC7632C84 }}
           package: '*.jar'
