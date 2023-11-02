@@ -51,9 +51,9 @@ public class BicycleController {
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{bicycleId}")
-    public ResponseEntity<Bicycle> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
+    public ResponseEntity<BicycleDtoResponse> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
         Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
-        return new ResponseEntity<>(bicycle, HttpStatus.OK);
+        return new ResponseEntity<>(convertToDtoResponse(bicycle), HttpStatus.OK);
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/available
