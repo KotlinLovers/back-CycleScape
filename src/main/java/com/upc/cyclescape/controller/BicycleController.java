@@ -1,7 +1,8 @@
 package com.upc.cyclescape.controller;
 
 import com.upc.cyclescape.dto.BicycleDto;
-import com.upc.cyclescape.dto.UserDto;
+import com.upc.cyclescape.dto.BicycleDtoResponse;
+import com.upc.cyclescape.dto.UserDtoResponse;
 import com.upc.cyclescape.model.Bicycle;
 import com.upc.cyclescape.model.User;
 import com.upc.cyclescape.service.BicycleService;
@@ -36,12 +37,12 @@ public class BicycleController {
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping
-    public ResponseEntity<List<BicycleDto>> getAllBicycles() {
+    public ResponseEntity<List<BicycleDtoResponse>> getAllBicycles() {
         //print somethign
         List<Bicycle> bicycles = bicycleService.getAllBicycles();
         System.out.println("getAllBicycles");
-        return new ResponseEntity<List<BicycleDto>>(bicycles.stream()
-                .map(this::convertToDto)
+        return new ResponseEntity<List<BicycleDtoResponse>>(bicycles.stream()
+                .map(this::convertToDtoResponse)
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
@@ -49,9 +50,9 @@ public class BicycleController {
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{bicycleId}")
-    public ResponseEntity<BicycleDto> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
+    public ResponseEntity<BicycleDtoResponse> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
         Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
-        return new ResponseEntity<BicycleDto>(convertToDto(bicycle), HttpStatus.OK);
+        return new ResponseEntity<BicycleDtoResponse>(convertToDtoResponse(bicycle), HttpStatus.OK);
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/available
@@ -103,6 +104,32 @@ public class BicycleController {
                 .bicycleModel(bicycle.getBicycleModel())
                 .imageData(bicycle.getImageData())
                 .user(bicycle.getUser())
+                .build();
+    }
+
+    private BicycleDtoResponse convertToDtoResponse(Bicycle bicycle) {
+        return BicycleDtoResponse.builder()
+                .id(bicycle.getId())
+                .bicycleName(bicycle.getBicycleName())
+                .bicycleDescription(bicycle.getBicycleDescription())
+                .bicyclePrice(bicycle.getBicyclePrice())
+                .bicycleSize(bicycle.getBicycleSize())
+                .bicycleModel(bicycle.getBicycleModel())
+                .imageData(bicycle.getImageData())
+                .userDtoResponse(convertToDtoUser(bicycle.getUser()))
+                .build();
+    }
+    private UserDtoResponse convertToDtoUser(User user) {
+        return UserDtoResponse.builder()
+                .id(user.getId())
+                .userFirstName(user.getUserFirstName())
+                .userLastName(user.getUserLastName())
+                .userEmail(user.getUserEmail())
+                .userPhone(user.getUserPhone())
+                .userBirthDate(user.getUserBirthDate())
+                .imageData(user.getImageData())
+                .longitudeData(user.getLongitudeData())
+                .latitudeData(user.getLatitudeData())
                 .build();
     }
 }
