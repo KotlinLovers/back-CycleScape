@@ -2,7 +2,6 @@ package com.upc.cyclescape.controller;
 
 import com.upc.cyclescape.dto.BicycleDto;
 import com.upc.cyclescape.dto.BicycleDtoResponse;
-import com.upc.cyclescape.dto.UserDto;
 import com.upc.cyclescape.dto.UserDtoResponse;
 import com.upc.cyclescape.model.Bicycle;
 import com.upc.cyclescape.model.User;
@@ -51,9 +50,9 @@ public class BicycleController {
     // Method: GET
     @Transactional(readOnly = true)
     @GetMapping("/{bicycleId}")
-    public ResponseEntity<Bicycle> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
+    public ResponseEntity<BicycleDtoResponse> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
         Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
-        return new ResponseEntity<>(bicycle, HttpStatus.OK);
+        return new ResponseEntity<BicycleDtoResponse>(convertToDtoResponse(bicycle), HttpStatus.OK);
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/available

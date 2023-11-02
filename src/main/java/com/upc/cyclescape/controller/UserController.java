@@ -101,6 +101,7 @@ public class UserController {
 
     private UserDto convertToDto(User user) {
         return UserDto.builder()
+                .id(user.getId())
                 .userFirstName(user.getUserFirstName())
                 .userLastName(user.getUserLastName())
                 .userEmail(user.getUserEmail())
