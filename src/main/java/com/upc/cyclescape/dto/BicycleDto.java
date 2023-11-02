@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BicycleDto {
+    private Long id;
     private String bicycleName;
     private String bicycleDescription;
     private double bicyclePrice;

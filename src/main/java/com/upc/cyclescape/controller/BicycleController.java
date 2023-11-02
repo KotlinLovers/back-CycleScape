@@ -2,7 +2,6 @@ package com.upc.cyclescape.controller;
 
 import com.upc.cyclescape.dto.BicycleDto;
 import com.upc.cyclescape.dto.BicycleDtoResponse;
-import com.upc.cyclescape.dto.UserDto;
 import com.upc.cyclescape.dto.UserDtoResponse;
 import com.upc.cyclescape.model.Bicycle;
 import com.upc.cyclescape.model.User;
@@ -97,6 +96,7 @@ public class BicycleController {
     }
     private BicycleDto convertToDto(Bicycle bicycle) {
         return BicycleDto.builder()
+                .id((bicycle.getId()))
                 .bicycleName(bicycle.getBicycleName())
                 .bicycleDescription(bicycle.getBicycleDescription())
                 .bicyclePrice(bicycle.getBicyclePrice())
@@ -121,6 +121,7 @@ public class BicycleController {
     }
     private UserDtoResponse convertToDtoUser(User user) {
         return UserDtoResponse.builder()
+                .id(user.getId())
                 .userFirstName(user.getUserFirstName())
                 .userLastName(user.getUserLastName())
                 .userEmail(user.getUserEmail())
