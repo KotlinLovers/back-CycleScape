@@ -80,12 +80,12 @@ public class UserController {
     // Method: PUT
     @Transactional
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable(name = "userId") Long userId, @RequestBody User user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable(name = "userId") Long userId, @RequestBody User user) {
         existsUserByUserId(userId);
         validateUser(user);
         user.setId(userId);
         User responseUser = ifDifferentOrEmptyUpdate(user);
-        return new ResponseEntity<User>(responseUser, HttpStatus.OK);
+        return new ResponseEntity<UserDto>(convertToDto(responseUser), HttpStatus.OK);
 
     }
 
