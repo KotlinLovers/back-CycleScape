@@ -95,6 +95,7 @@ public class BicycleController {
     }
     private BicycleDto convertToDto(Bicycle bicycle) {
         return BicycleDto.builder()
+                .id((bicycle.getId()))
                 .bicycleName(bicycle.getBicycleName())
                 .bicycleDescription(bicycle.getBicycleDescription())
                 .bicyclePrice(bicycle.getBicyclePrice())
