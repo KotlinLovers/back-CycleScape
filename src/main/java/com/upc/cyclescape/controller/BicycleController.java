@@ -121,6 +121,7 @@ public class BicycleController {
     }
     private UserDtoResponse convertToDtoUser(User user) {
         return UserDtoResponse.builder()
+                .id(user.getId())
                 .userFirstName(user.getUserFirstName())
                 .userLastName(user.getUserLastName())
                 .userEmail(user.getUserEmail())
