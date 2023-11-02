@@ -52,7 +52,7 @@ public class BicycleController {
     @GetMapping("/{bicycleId}")
     public ResponseEntity<BicycleDtoResponse> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
         Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
-        return new ResponseEntity<BicycleDtoResponse>(convertToDtoResponse(bicycle), HttpStatus.OK);
+        return new ResponseEntity<>(convertToDtoResponse(bicycle), HttpStatus.OK);
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/available
