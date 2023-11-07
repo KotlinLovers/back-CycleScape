@@ -37,6 +37,11 @@ public class Bicycle {
     @Column(name="image_data", nullable = true)
     private String imageData;
 
+    @Column(name="latitude_data", nullable = true)
+    private Double latitudeData;
+
+    @Column(name="longitude_data", nullable = true)
+    private Double longitudeData;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false,

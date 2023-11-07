@@ -23,5 +23,7 @@ public class BicycleDto {
     private String bicycleSize;
     private String bicycleModel;
     private String imageData;
+    private Double latitude;
+    private Double longitude;
     private User user;
 }
