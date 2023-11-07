@@ -51,7 +51,7 @@ public class UserController {
     }
 
 
-
+/*USER LOGIN ENDPOINT - REPLACED IN AuthController
     // URL: http://localhost:8080/api/cyclescape/v1/login
     // Method: POST
     @Transactional(readOnly = true)
@@ -64,8 +64,8 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
+*/
+/*USER REGISTER ENDPOINT - REPLACED IN AuthController
     // URL: http://localhost:8080/api/cyclescape/v1/register
     // Method: POST
     @Transactional
@@ -75,17 +75,17 @@ public class UserController {
         existsUserByEmail(user);
         return new ResponseEntity<User>(userService.createUser(user), HttpStatus.CREATED);
     }
-
+*/
     // URL: http://localhost:8080/api/cyclescape/v1/users/{userId}
     // Method: PUT
     @Transactional
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable(name = "userId") Long userId, @RequestBody User user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable(name = "userId") Long userId, @RequestBody User user) {
         existsUserByUserId(userId);
         validateUser(user);
         user.setId(userId);
         User responseUser = ifDifferentOrEmptyUpdate(user);
-        return new ResponseEntity<User>(responseUser, HttpStatus.OK);
+        return new ResponseEntity<UserDto>(convertToDto(responseUser), HttpStatus.OK);
 
     }
 
@@ -101,6 +101,7 @@ public class UserController {
 
     private UserDto convertToDto(User user) {
         return UserDto.builder()
+                .id(user.getId())
                 .userFirstName(user.getUserFirstName())
                 .userLastName(user.getUserLastName())
                 .userEmail(user.getUserEmail())
@@ -127,18 +128,18 @@ public class UserController {
         if (user.getUserLastName().length() > 50) {
             throw new ValidationException("El apellido del usuario no debe exceder los 50 caracteres");
         }
-        if (user.getUserEmail() == null || user.getUserEmail().isEmpty()) {
+        /*if (user.getUserEmail() == null || user.getUserEmail().isEmpty()) {
             throw new ValidationException("El email del usuario debe ser obligatorio");
         }
         if (user.getUserEmail().length() > 50) {
             throw new ValidationException("El email del usuario no debe exceder los 50 caracteres");
         }
-        if (user.getUserPassword() == null || user.getUserPassword().isEmpty()) {
+        //if (user.getUserPassword() == null || user.getUserPassword().isEmpty()) {
             throw new ValidationException("La contraseña del usuario debe ser obligatorio");
         }
         if (user.getUserPassword().length() > 100) {
             throw new ValidationException("La contraseña del usuario no debe exceder los 100 caracteres");
-        }
+        }*/
 
     }
 
@@ -171,9 +172,9 @@ public class UserController {
             if (user.getUserEmail() != null && !user.getUserEmail().isEmpty() && !user.getUserEmail().equals(userToUpdate.getUserEmail())) {
                 userToUpdate.setUserEmail(user.getUserEmail());
             }
-            if (user.getUserPassword() != null && !user.getUserPassword().isEmpty() && !user.getUserPassword().equals(userToUpdate.getUserPassword())) {
+            /*if (user.getUserPassword() != null && !user.getUserPassword().isEmpty() && !user.getUserPassword().equals(userToUpdate.getUserPassword())) {
                 userToUpdate.setUserPassword(user.getUserPassword());
-            }
+            }*/
             if (user.getUserBirthDate() != null && !user.getUserBirthDate().equals(userToUpdate.getUserBirthDate())) {
                 userToUpdate.setUserBirthDate(user.getUserBirthDate());
             }

@@ -1,11 +1,7 @@
 package com.upc.cyclescape.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.upc.cyclescape.model.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BicycleDto {
+public class BicycleDtoResponse {
     private Long id;
     private String bicycleName;
     private String bicycleDescription;
@@ -25,5 +21,7 @@ public class BicycleDto {
     private String imageData;
     private Double latitude;
     private Double longitude;
-    private User user;
+    private UserDtoResponse userDtoResponse;
+
+
 }
