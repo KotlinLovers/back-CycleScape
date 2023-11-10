@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Blob;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +24,7 @@ public class BicycleDtoResponse {
     private Double latitude;
     private Double longitude;
     private UserDtoResponse userDtoResponse;
+
 
 
 }

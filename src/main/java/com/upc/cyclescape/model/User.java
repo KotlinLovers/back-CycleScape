@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -63,6 +64,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+    @Lob
+    private Blob image;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
@@ -70,6 +74,13 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+    public void setImage(Blob image) {
+        this.image = image;
     }
 
     @Override
