@@ -103,8 +103,8 @@ public class BicycleController {
                 .bicycleSize(bicycle.getBicycleSize())
                 .bicycleModel(bicycle.getBicycleModel())
                 .imageData(bicycle.getImageData())
-                .latitude(bicycle.getLatitudeData())
-                .longitude(bicycle.getLongitudeData())
+                .latitudeData(bicycle.getLatitudeData())
+                .longitudeData(bicycle.getLongitudeData())
                 .user(bicycle.getUser())
                 .build();
     }
@@ -118,8 +118,8 @@ public class BicycleController {
                 .bicycleSize(bicycle.getBicycleSize())
                 .bicycleModel(bicycle.getBicycleModel())
                 .imageData(bicycle.getImageData())
-                .latitude(bicycle.getLatitudeData())
-                .longitude(bicycle.getLongitudeData())
+                .latitudeData(bicycle.getLatitudeData())
+                .longitudeData(bicycle.getLongitudeData())
                 .userDtoResponse(convertToDtoUser(bicycle.getUser()))
                 .build();
     }

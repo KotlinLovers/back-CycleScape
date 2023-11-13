@@ -19,8 +19,8 @@ public class BicycleDtoResponse {
     private String bicycleSize;
     private String bicycleModel;
     private String imageData;
-    private Double latitude;
-    private Double longitude;
+    private Double latitudeData;
+    private Double longitudeData;
     private UserDtoResponse userDtoResponse;
 
 
