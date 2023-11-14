@@ -1,17 +1,25 @@
 package com.upc.cyclescape.controller;
 
+import com.upc.cyclescape.dto.BicycleDtoResponse;
 import com.upc.cyclescape.dto.UserDto;
 import com.upc.cyclescape.exception.ResourceNotFoundException;
 import com.upc.cyclescape.exception.ValidationException;
+import com.upc.cyclescape.model.Bicycle;
 import com.upc.cyclescape.model.User;
 import com.upc.cyclescape.repository.UserRepository;
 import com.upc.cyclescape.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialException;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,32 +58,35 @@ public class UserController {
         return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
 
+    // URL: http://localhost:8080/api/cyclescape/v1/users/{userId}/image
+    // Method: GET
+    @GetMapping("/{userId}/image")
+    public ResponseEntity<byte[]> displayImage(@PathVariable(name= "userId")Long userId)throws IOException, SQLException{
+        User user = userService.getUserById(userId);
+        byte[] imageBytes = null;
+        imageBytes = user.getImage().getBytes(1,(int)user.getImage().length());
 
-/*USER LOGIN ENDPOINT - REPLACED IN AuthController
-    // URL: http://localhost:8080/api/cyclescape/v1/login
-    // Method: POST
-    @Transactional(readOnly = true)
-    @PostMapping("/login")
-    public ResponseEntity<Long> getUserIdByEmailAndPassword(@RequestBody User user) {
-        User foundUser = userRepository.findByUserEmailAndUserPassword(user.getUserEmail(), user.getUserPassword());
-        if (foundUser != null) {
-            return new ResponseEntity<Long>(foundUser.getId(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(imageBytes);
     }
-*/
-/*USER REGISTER ENDPOINT - REPLACED IN AuthController
-    // URL: http://localhost:8080/api/cyclescape/v1/register
+
+
+    // URL: http://localhost:8080/api/cyclescape/v1/users/{userId}/addImage
     // Method: POST
-    @Transactional
-    @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    @PostMapping("/{userId}/addImage")
+    public ResponseEntity<UserDto> addImageUser(@PathVariable(name = "userId") Long userId, @RequestParam("image") MultipartFile file) throws IOException, SerialException, SQLException
+    {
+        byte[] bytes = file.getBytes();
+        Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+
+        User user = userService.getUserById(userId);
+        user.setImage(blob);
+        existsUserByUserId(userId);
         validateUser(user);
-        existsUserByEmail(user);
-        return new ResponseEntity<User>(userService.createUser(user), HttpStatus.CREATED);
+        user.setId(userId);
+        User responseUser = ifDifferentOrEmptyUpdate(user);
+        return new ResponseEntity<UserDto>(convertToDto(userService.updateUser(responseUser)), HttpStatus.OK);
     }
-*/
+
     // URL: http://localhost:8080/api/cyclescape/v1/users/{userId}
     // Method: PUT
     @Transactional

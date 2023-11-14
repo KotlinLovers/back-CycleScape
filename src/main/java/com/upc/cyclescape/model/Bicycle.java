@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Blob;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -42,10 +44,24 @@ public class Bicycle {
 
     @Column(name="longitude_data", nullable = true)
     private Double longitudeData;
+
+    @JsonIgnore
+    @Lob
+    private Blob image;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false,
             foreignKey = @ForeignKey(name = "FK_USER_BICYCLE_ID"))
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
+
+
+    public Blob getImage() {
+        return image;
+    }
+    public void setImage(Blob image) {
+        this.image = image;
+    }
+
 }

@@ -7,17 +7,27 @@ import com.upc.cyclescape.model.Bicycle;
 import com.upc.cyclescape.model.User;
 import com.upc.cyclescape.service.BicycleService;
 import com.upc.cyclescape.service.UserService;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.sql.rowset.serial.SerialException;
 
 
 @CrossOrigin(origins = "*")
@@ -28,9 +38,11 @@ public class BicycleController {
     private UserService userService;
 
     private final BicycleService bicycleService;
+    private final HttpServletRequest request;
 
-    public BicycleController(BicycleService bicycleService) {
+    public BicycleController(BicycleService bicycleService, HttpServletRequest request) {
         this.bicycleService = bicycleService;
+        this.request = request;
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles
@@ -49,11 +61,12 @@ public class BicycleController {
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}
     // Method: GET
     @Transactional(readOnly = true)
-    @GetMapping("/{bicycleId}")
+    @GetMapping("/bike/{bicycleId}")
     public ResponseEntity<BicycleDtoResponse> getBicycleById(@PathVariable(name = "bicycleId") Long bicycleId) {
         Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
         return new ResponseEntity<>(convertToDtoResponse(bicycle), HttpStatus.OK);
     }
+
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/available
     // Method: GET
@@ -68,14 +81,50 @@ public class BicycleController {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
-
-    // URL: http://localhost:8080/api/cyclescapey/v1/bicycles/{userId}
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{userId}
     // Method: POST
     @Transactional
-    @PostMapping("/{userId}")
-    public ResponseEntity<Bicycle> createBicycleWithUserId(@PathVariable(name = "userId") Long userId, @RequestBody Bicycle bicycle) {
+    @PostMapping("/user/{userId}")
+    public ResponseEntity<Bicycle> createBicycleWithUserId(
+            @PathVariable(name = "userId") Long userId, @RequestBody Bicycle bicycle) {
+
         return new ResponseEntity<Bicycle>(bicycleService.createBicycle(userId, bicycle), HttpStatus.CREATED);
     }
+
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles/image/{imageName:.+}
+    // Method: GET
+    @GetMapping("/image/{bicycleId}/{imageName:.+}")
+    public ResponseEntity<byte[]> displayImage(@PathVariable(name = "bicycleId") Long bicycleId) throws IOException, SQLException
+    {
+        Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
+        byte[] imageBytes = null;
+        imageBytes = bicycle.getImage().getBytes(1,(int)bicycle.getImage().length());
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(imageBytes);
+    }
+
+
+
+    // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}/addImage
+    // Method: POST
+    @PostMapping("/{bicycleId}/addImage")
+    public ResponseEntity<BicycleDtoResponse> addImageBicycle(
+            @PathVariable(name = "bicycleId") Long bicycleId, @RequestParam("image") MultipartFile file)
+            throws IOException, SerialException, SQLException
+    {
+        byte[] bytes = file.getBytes();
+        Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+
+        Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
+        String imageName = bicycle.getBicycleName();
+        String host = request.getRequestURL().toString().replace(request.getRequestURI(),"");
+        String url = ServletUriComponentsBuilder.fromHttpUrl(host).path("/api/cyclescape/v1/bicycles/image/"+bicycleId+"/").path(imageName).toUriString();
+        bicycle.setImageData(url);
+        bicycle.setImage(blob);
+
+        return new ResponseEntity<BicycleDtoResponse>(convertToDtoResponse(bicycleService.updateBicycle(bicycleId,bicycle)), HttpStatus.OK);
+    }
+
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}
     // Method: PUT
@@ -94,6 +143,11 @@ public class BicycleController {
         bicycleService.deleteBicycle(bicycleId);
         return new ResponseEntity<String>("Bicicleta eliminada correctamente", HttpStatus.OK);
     }
+
+
+
+
+
     private BicycleDto convertToDto(Bicycle bicycle) {
         return BicycleDto.builder()
                 .id((bicycle.getId()))
