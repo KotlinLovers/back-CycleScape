@@ -120,7 +120,7 @@ public class BicycleController {
         Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
         String imageName = bicycle.getBicycleName();
         String host = request.getRequestURL().toString().replace(request.getRequestURI(),"");
-        String url = ServletUriComponentsBuilder.fromOriginHeader(host).path("/api/cyclescape/v1/bicycles/image/"+bicycleId+"/").path(imageName).toUriString();
+        String url = ServletUriComponentsBuilder.fromHttpUrl(host).path("/api/cyclescape/v1/bicycles/image/"+bicycleId+"/").path(imageName).toUriString();
         bicycle.setImageData(url);
         bicycle.setImage(blob);
 
