@@ -38,11 +38,11 @@ public class BicycleController {
     private UserService userService;
 
     private final BicycleService bicycleService;
-    private final HttpServletRequest request;
 
-    public BicycleController(BicycleService bicycleService, HttpServletRequest request) {
+
+    public BicycleController(BicycleService bicycleService) {
         this.bicycleService = bicycleService;
-        this.request = request;
+
     }
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles
@@ -109,7 +109,7 @@ public class BicycleController {
     // Method: POST
     @PostMapping("/{bicycleId}/addImage")
     public ResponseEntity<BicycleDtoResponse> addImageBicycle(
-            @PathVariable(name = "bicycleId") Long bicycleId, @RequestParam("image") MultipartFile file)
+            HttpServletRequest request, @PathVariable(name = "bicycleId") Long bicycleId, @RequestParam("image") MultipartFile file)
             throws IOException, SerialException, SQLException
     {
         byte[] bytes = file.getBytes();
