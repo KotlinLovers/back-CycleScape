@@ -93,6 +93,7 @@ public class BicycleController {
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/image/{imageName:.+}
     // Method: GET
+    @Transactional
     @GetMapping("/image/{bicycleId}/{imageName:.+}")
     public ResponseEntity<byte[]> displayImage(@PathVariable(name = "bicycleId") Long bicycleId) throws IOException, SQLException
     {
@@ -107,6 +108,7 @@ public class BicycleController {
 
     // URL: http://localhost:8080/api/cyclescape/v1/bicycles/{bicycleId}/addImage
     // Method: POST
+    @Transactional
     @PostMapping("/{bicycleId}/addImage")
     public ResponseEntity<BicycleDtoResponse> addImageBicycle(
             HttpServletRequest request, @PathVariable(name = "bicycleId") Long bicycleId, @RequestParam("image") MultipartFile file)
@@ -118,7 +120,7 @@ public class BicycleController {
         Bicycle bicycle = bicycleService.getBicycleById(bicycleId);
         String imageName = bicycle.getBicycleName();
         String host = request.getRequestURL().toString().replace(request.getRequestURI(),"");
-        String url = ServletUriComponentsBuilder.fromHttpUrl(host).path("/api/cyclescape/v1/bicycles/image/"+bicycleId+"/").path(imageName).toUriString();
+        String url = ServletUriComponentsBuilder.fromOriginHeader(host).path("/api/cyclescape/v1/bicycles/image/"+bicycleId+"/").path(imageName).toUriString();
         bicycle.setImageData(url);
         bicycle.setImage(blob);
 
