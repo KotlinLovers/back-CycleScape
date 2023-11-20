@@ -14,5 +14,5 @@ public class CardDto {
     private Double cardAmount;
     private String cardHolder;
     private boolean cardMain;
-    private Long userId;
+    private UserDtoResponse userDtoResponse;
 }
